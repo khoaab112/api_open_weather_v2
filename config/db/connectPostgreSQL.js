@@ -13,7 +13,7 @@ const {
 console.log(USER);
 
 
-const client = new Client({
+var client = new Pool({
     user: USER,
     host: HOST,
     database: DATABASE,
@@ -21,39 +21,62 @@ const client = new Client({
     port: PORT_DB,
 });
 
-client.connect((err, client, release) => {
-    // console.log(client);
-    if (err) {
-        return console.error('Lỗi kết nối', err);
-    }
-    console.log('Kết nối thành công!');
-});
-
-// const res = client.query('select *from staff_account')
-// console.log(res)
-
-// client.on('exit', () => {
-//     pool.end();
-// })
-// module.exports = {
-//     client,
+// client.connect((err, client, release) => {
+//     if (err) {
+//         console.error('Lỗi kết nối', err);
+//         return false;
+//     }
+//     console.log('Kết nối thành công!');
+//     return true;
+// });
+// const connectDB = async() => {
+//     client.connect((err, client, release) => {
+//         if (err) {
+//             console.error('Lỗi kết nối', err);
+//             return false;
+//         }
+//         console.log('Kết nối thành công!');
+//         return true;
+//     });
 // };
+
+const connectDB = () => {
+    return new Promise((resolve, reject) => {
+        client.connect((err, client, release) => {
+            if (err) {
+                console.error('Lỗi kết nối', err);
+                reject(false);
+            } else {
+                console.log('Kết nối thành công!');
+                resolve(true);
+            }
+        });
+    });
+};
+
+
+
+function disconnectDB() {
+    client.end();
+    // client.on('exit', () => {
+    //     pool.end();
+    // })
+};
+
 const test = async() => {
     try {
-        await client.connect()
-        const res = await client.query('SELECT * FROM staff_account')
-        console.log(22, res)
+        const connect = await connectDB()
+        if (connect) {
+            const res = await client.query('SELECT * FROM staff_account')
+            return res;
+        } else {}
+
     } catch (err) {
         console.log({ 'lỗi config': err })
     }
 }
 
 const query = async(text, params) => {
-    // const connect = await client.connect();
-    // console.log(connect);
-
-
-
     try {
         const result = await connect.query(text, params);
         return result;
