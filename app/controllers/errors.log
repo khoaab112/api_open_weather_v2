@@ -1,0 +1,12 @@
+[2023-07-31 13:47:47] [[31merror[39m] Error: ReferenceError: pool is not defined
+    at Object.getDefaultLocation (D:\K\api_open_weather_v2\app\models\modelWeather.js:34:22)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2023-07-31 14:00:37] [[31merror[39m] Error: ReferenceError: connect is not defined
+    at Object.getDefaultLocation (D:\K\api_open_weather_v2\app\models\modelWeather.js:34:22)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2023-07-31 14:03:56] [[31merror[39m] Error: TypeError: client.release is not a function
+    at Object.getDefaultLocation (D:\K\api_open_weather_v2\app\models\modelWeather.js:34:22)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[2023-07-31 14:04:42] [[31merror[39m] Error: TypeError: client.release is not a function
+    at Object.getDefaultLocation (D:\K\api_open_weather_v2\app\models\modelWeather.js:34:22)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)

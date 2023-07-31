@@ -2,6 +2,7 @@
 const dotenv = require('dotenv');
 const axios = require('axios');
 const logger = require('../controllers/winston');
+const handleData = require('./apiWeather.js');
 dotenv.config();
 const {
     API_KEY,
@@ -25,16 +26,33 @@ async function getDefaultLocation(res, req, next) {
             }
         });
 
-        const weatherData = response.data;
+        const weatherData = await convertData(response.data);
+        await handleData.insertDataOrUpdate(weatherData);
         return res.send({ 'code': 200, message: 'success', results: weatherData });
-        // return res.json(weatherDataa);
     } catch (error) {
         console.error(error);
         logger.error(new Error(error));
         return res.send({ 'code': 500, message: 'error', results: null });
-        //    return res.status(500).json({ error: 'Something went wrong' });
     }
 }
+async function convertData(data) {
+    const name = 'get weather' + data.name;
+    const city = data.name;
+    const longitude = data.coord.lon;
+    const latityde = data.coord.lat;
+    const content = {
+        'weather': data.weather[0],
+        'main': data.main,
+    };
+    return data = {
+        name,
+        city,
+        longitude,
+        latityde,
+        content,
+    }
+}
+
 //tự động lấy 20ph rồi put vào database
 //ghi log
 //tạo hàm lấy tọa độ trong database rồi put vào

@@ -54,8 +54,6 @@ const connectDB = () => {
     });
 };
 
-
-
 function disconnectDB() {
     client.end();
     // client.on('exit', () => {
@@ -78,10 +76,12 @@ const test = async() => {
 
 const query = async(text, params) => {
     try {
-        const result = await connect.query(text, params);
+        const connect = await connectDB()
+        const result = await client.query(text, params);
         return result;
-    } finally {
-        connect.release();
+    } catch (err) {
+        console.log({ 'lỗi query': err })
+            // return res.send({ 'code': 404, message: 'error', results: weatherData });
     }
 };
 
